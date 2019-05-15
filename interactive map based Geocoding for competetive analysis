@@ -1,0 +1,25 @@
+r <-read.csv("july with geocoding.csv")
+
+library(leaflet)
+library(tibble)
+library(tidyverse)
+library(viridisLite)
+
+#pal = colorFactor(palette = c("#FF0000","#66CC00","#FF00CC","#000066"),
+                  #levels = c("A","B","C","D"))
+
+r$delaername <- factor(r$delaername)
+
+new <- c("red", "green","blue","black")[r$delaername]
+
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = new
+)
+leaflet() %>%
+  #addProviderTiles(provider = "CartoDB")
+  #addProviderTiles(provider = "Esri")%>%
+  addTiles() %>%
+  addAwesomeMarkers(lng = r$Longitude, lat = r$Latitude,icon = icons,popup = r$Customer.Name)
